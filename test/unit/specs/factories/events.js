@@ -35,7 +35,7 @@ define(function (require) {
     });
 
     it('should work with inherited objects', function () {
-      _(MyEventedObject).inherits(Events);
+      _.class(MyEventedObject).inherits(Events);
       function MyEventedObject() {
         MyEventedObject.Super.call(this);
       }
@@ -54,7 +54,7 @@ define(function (require) {
       var obj = new Events();
       obj.on('test', _.noop);
       expect(obj._listeners).to.have.property('test');
-      expect(obj._listeners['test']).to.have.length(1);
+      expect(obj._listeners.test).to.have.length(1);
       obj.off();
       expect(obj._listeners).to.not.have.property('test');
     });

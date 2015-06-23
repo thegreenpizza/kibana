@@ -14,6 +14,7 @@ define(function (require) {
      * @param xTitle {String} X-axis title
      * @param yTitle {String} Y-axis title
      */
+    _.class(AxisTitle).inherits(ErrorHandler);
     function AxisTitle(el, xTitle, yTitle) {
       if (!(this instanceof AxisTitle)) {
         return new AxisTitle(el, xTitle, yTitle);
@@ -23,8 +24,6 @@ define(function (require) {
       this.xTitle = xTitle;
       this.yTitle = yTitle;
     }
-
-    _(AxisTitle.prototype).extend(ErrorHandler.prototype);
 
     /**
      * Renders both x and y axis titles
@@ -53,7 +52,7 @@ define(function (require) {
           var div = d3.select(el);
           var width = $(el).width();
           var height = $(el).height();
-          
+
           self.validateWidthandHeight(width, height);
 
           div.append('svg')

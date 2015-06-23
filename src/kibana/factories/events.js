@@ -2,10 +2,10 @@ define(function (require) {
   var _ = require('lodash');
 
   return function EventsProvider(Private, Promise, Notifier) {
-    var BaseObject = Private(require('factories/base_object'));
+    var SimpleEmitter = require('utils/SimpleEmitter');
     var notify = new Notifier({ location: 'EventEmitter' });
 
-    _(Events).inherits(BaseObject);
+    _.class(Events).inherits(SimpleEmitter);
     function Events() {
       Events.Super.call(this);
       this._listeners = {};
@@ -37,6 +37,8 @@ define(function (require) {
           Promise.resolve(handler(value)).catch(notify.fatal);
         });
       }());
+
+      return this;
     };
 
     /**
@@ -61,6 +63,8 @@ define(function (require) {
           return handler !== listener.handler;
         });
       }
+
+      return this;
     };
 
     /**
@@ -83,6 +87,16 @@ define(function (require) {
           return listener.resolved;
         });
       });
+    };
+
+    /**
+     * Get a list of the handler functions for a specific event
+     *
+     * @param  {string} name
+     * @return {array[function]}
+     */
+    Events.prototype.listeners = function (name) {
+      return _.pluck(this._listeners[name], 'handler');
     };
 
     return Events;

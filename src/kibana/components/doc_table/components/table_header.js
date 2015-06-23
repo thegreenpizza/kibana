@@ -18,11 +18,17 @@ define(function (require) {
 
         var sortableField = function (field) {
           if (!$scope.indexPattern) return;
-          return $scope.indexPattern.fields.byName[field].sortable;
+          var sortable = _.get($scope.indexPattern.fields.byName[field], 'sortable');
+          return sortable;
         };
 
         $scope.tooltip = function (column) {
-          if (!sortableField(column)) return ''; else return 'Sort by ' + shortDotsFilter(column);
+          if (!sortableField(column)) return '';
+          return 'Sort by ' + shortDotsFilter(column);
+        };
+
+        $scope.canRemove = function (name) {
+          return (name !== '_source' || $scope.columns.length !== 1);
         };
 
         $scope.headerClass = function (column) {
@@ -47,6 +53,10 @@ define(function (require) {
           if (index === $scope.columns.length - 1) return;
 
           _.move($scope.columns, index, ++index);
+        };
+
+        $scope.toggleColumn = function (fieldName) {
+          _.toggleInOut($scope.columns, fieldName);
         };
 
         $scope.sort = function (column) {

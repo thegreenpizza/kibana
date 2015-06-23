@@ -14,6 +14,7 @@ define(function (require) {
      * @param args {{el: (HTMLElement), xValues: (Array), ordered: (Object|*),
      * xAxisFormatter: (Function), _attr: (Object|*)}}
      */
+    _.class(XAxis).inherits(ErrorHandler);
     function XAxis(args) {
       if (!(this instanceof XAxis)) {
         return new XAxis(args);
@@ -26,8 +27,6 @@ define(function (require) {
       this.expandLastBucket = args.expandLastBucket == null ? true : args.expandLastBucket;
       this._attr = _.defaults(args._attr || {});
     }
-
-    _(XAxis.prototype).extend(ErrorHandler.prototype);
 
     /**
      * Renders the x axis
@@ -254,7 +253,7 @@ define(function (require) {
 
           div = d3.select(this);
           width = parentWidth / n;
-          height = $(this).height();
+          height = $(this.parentElement).height();
 
           self.validateWidthandHeight(width, height);
 

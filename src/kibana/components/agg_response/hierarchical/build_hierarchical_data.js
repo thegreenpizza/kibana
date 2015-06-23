@@ -7,7 +7,7 @@ define(function (require) {
     var arrayToLinkedList = require('components/agg_response/hierarchical/_array_to_linked_list');
     var tooltipFormatter = Private(require('components/agg_response/hierarchical/_hierarchical_tooltip_formatter'));
 
-    var AggConfigResult = require('components/vis/_agg_config_result');
+    var AggConfigResult = require('components/vis/AggConfigResult');
 
     var notify = new Notifier({
       location: 'Pie chart response converter'
@@ -75,7 +75,7 @@ define(function (require) {
         if (!_.isEmpty(displayName)) split.label += ': ' + displayName;
 
         split.tooltipFormatter = tooltipFormatter(raw.columns);
-        var aggConfigResult = new AggConfigResult(firstAgg, null, null, bucket.key);
+        var aggConfigResult = new AggConfigResult(firstAgg, null, null, firstAgg.getKey(bucket));
         split.split = { aggConfig: firstAgg, aggConfigResult: aggConfigResult, key: bucket.key };
         _.each(split.slices.children, function (child) {
           child.aggConfigResult.$parent = aggConfigResult;

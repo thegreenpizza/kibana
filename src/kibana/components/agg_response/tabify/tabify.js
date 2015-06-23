@@ -2,7 +2,7 @@ define(function (require) {
   return function tabifyAggResponseProvider(Private, Notifier) {
     var _ = require('lodash');
 
-    var AggConfig = Private(require('components/vis/_agg_config'));
+    var AggConfig = Private(require('components/vis/AggConfig'));
     var TabbedAggResponseWriter = Private(require('components/agg_response/tabify/_response_writer'));
     var Buckets = Private(require('components/agg_response/tabify/_buckets'));
     var notify = new Notifier({ location: 'agg_response/tabify'});
@@ -38,12 +38,12 @@ define(function (require) {
           var splitting = write.canSplit && agg.schema.name === 'split';
           if (splitting) {
             write.split(agg, buckets, function forEachBucket(subBucket, key) {
-              collectBucket(write, subBucket, key);
+              collectBucket(write, subBucket, agg.getKey(subBucket), key);
             });
           } else {
             buckets.forEach(function (subBucket, key) {
-              write.cell(agg, key, function () {
-                collectBucket(write, subBucket, key);
+              write.cell(agg, agg.getKey(subBucket, key), function () {
+                collectBucket(write, subBucket, agg.getKey(subBucket, key));
               });
             });
           }

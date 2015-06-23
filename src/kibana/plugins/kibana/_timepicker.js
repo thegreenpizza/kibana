@@ -7,27 +7,26 @@ define(function (require) {
 
     $scope.$listen(timefilter, 'update', function (newVal, oldVal) {
       globalState.time = _.clone(timefilter.time);
+      globalState.refreshInterval = _.clone(timefilter.refreshInterval);
       globalState.save();
     });
 
-    $scope.timefilter.refreshInterval = sessionStorage.get('refreshInterval');
-    $scope.$watch('timefilter.refreshInterval', function (refreshInterval) {
-      if (refreshInterval != null && _.isNumber(refreshInterval.value)) {
-        sessionStorage.set('refreshInterval', refreshInterval);
-      } else {
-        $scope.timefilter.refreshInterval = { value : 0, display : 'Off' };
-      }
-    });
-
     var timepickerHtml = require('text!plugins/kibana/_timepicker.html');
-    $scope.toggleTimepicker = function () {
+    $scope.toggleTimepicker = function (tab) {
+      tab = tab || timefilter.timepickerActiveTab || 'filter';
+
       // Close if already open
-      if ($scope.globalConfigTemplate === timepickerHtml) {
+      if ($scope.globalConfigTemplate === timepickerHtml && timefilter.timepickerActiveTab === tab) {
         delete $scope.globalConfigTemplate;
+        delete timefilter.timepickerActiveTab;
       } else {
+        timefilter.timepickerActiveTab = tab;
         $scope.globalConfigTemplate = timepickerHtml;
       }
     };
 
+    $scope.toggleRefresh = function () {
+      timefilter.refreshInterval.pause = !timefilter.refreshInterval.pause;
+    };
   };
 });

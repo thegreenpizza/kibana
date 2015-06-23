@@ -16,7 +16,7 @@ define(function (require) {
     }
 
     function getSlopes(seq, count) {
-      return _.chunk(seq, count).map(function (chunk) {
+      return _.chunk(seq, Math.ceil(seq.length / count)).map(function (chunk) {
         return (_.last(chunk) - _.first(chunk)) / chunk.length;
       });
     }
@@ -31,7 +31,7 @@ define(function (require) {
 
       seq.forEach(function (n, i) {
         if (i > 0 && (seq[i - 1] < n) !== up) {
-          throw new Error('expected values to ' + (up ? 'increase': 'decrease'));
+          throw new Error('expected values to ' + (up ? 'increase' : 'decrease'));
         }
       });
     }

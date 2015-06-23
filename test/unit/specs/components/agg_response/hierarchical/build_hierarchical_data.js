@@ -18,7 +18,7 @@ define(function (require) {
       sinon.stub(Notifier.prototype, 'error');
 
       Vis = Private(require('components/vis/vis'));
-      AggConfigs = Private(require('components/vis/_agg_configs'));
+      AggConfigs = Private(require('components/vis/AggConfigs'));
       indexPattern = Private(require('fixtures/stubbed_logstash_index_pattern'));
       buildHierarchicalData = Private(require('components/agg_response/hierarchical/build_hierarchical_data'));
     }));
@@ -222,8 +222,8 @@ define(function (require) {
                 ]
               }
             }
-            ]
-          });
+          ]
+        });
         // We need to set the aggs to a known value.
         _.each(vis.aggs, function (agg) { agg.id = 'agg_' + id++; });
         results = buildHierarchicalData(vis, fixtures.oneFilterBucket);
@@ -254,8 +254,8 @@ define(function (require) {
                 ]
               }
             }
-            ]
-          });
+          ]
+        });
         // We need to set the aggs to a known value.
         _.each(vis.aggs, function (agg) { agg.id = 'agg_' + id++; });
         results = buildHierarchicalData(vis, fixtures.oneFilterBucket);

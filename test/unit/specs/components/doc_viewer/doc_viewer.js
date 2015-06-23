@@ -127,5 +127,25 @@ define(function (require) {
       });
 
     });
+
+    describe('JSON mode', function () {
+      it('has pretty JSON', function () {
+        expect($scope.hitJson).to.equal(angular.toJson(hit, true));
+      });
+
+      it('should have a global ACE object', function () {
+        expect(window.ace).to.be.a(Object);
+      });
+
+      it('should have one ACE div', function () {
+        expect($elem.find('div[id="json-ace"]').length).to.be(1);
+      });
+
+      it('should contain the same code as hitJson', function () {
+        var editor = window.ace.edit($elem.find('div[id="json-ace"]')[0]);
+        var code = editor.getSession().getValue();
+        expect(code).to.equal($scope.hitJson);
+      });
+    });
   });
 });
